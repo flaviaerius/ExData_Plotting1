@@ -3,17 +3,12 @@
 ## Exploring Data Analysis ##
 ## Course Project 1 ##
 
-### Plot 1 ###
+### Plot 3 ###
 
 # clean environment
 rm(list = ls())
 
-# First of all, download the file
-con <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-download.file(con, destfile = "household_power_consumption.zip", method = "curl")
-unzip("household_power_consumption.zip")
-
-# Then, read it into R
+# Read the file downloaded for plot 1 into R
 household <- read.table("household_power_consumption.txt", sep = ";",
                         header = T, stringsAsFactors = F, na.strings = "?")
 
@@ -29,12 +24,15 @@ household$Date_and_Time <- strptime(household$Date_and_Time ,
 # Get subset of the data that will be used to make this plot
 # The subset needed are the days 2007-02-01 and 2007-02-02
 household_used <- subset(household, format(Date_and_Time,'%d-%m-%Y') 
-                %in% c('01-02-2007', '02-02-2007'))
+                         %in% c('01-02-2007', '02-02-2007'))
 
 # Make the plot
-png("plot1.png", width = 480)
-par(cex = 0.8)
-hist(household_used$Global_active_power, ylim = c(0,1200),
-     col = "red", main = "Global Active Power",
-     xlab = "Global Active Power (kilowatts)")
+png("plot3.png", width = 480)
+with(household_used, plot(Date_and_Time, Sub_metering_1, 
+                          type = "n", xlab = "", ylab = "Energy sub metering"))
+with(household_used, lines(Date_and_Time, Sub_metering_1, col = "black"))
+with(household_used, lines(Date_and_Time, Sub_metering_2, col = "red"))
+with(household_used, lines(Date_and_Time, Sub_metering_3, col = "blue"))
+legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), 
+      col = c("black", "red", "blue"), lty = 1, cex = 0.8)
 dev.off()
