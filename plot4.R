@@ -1,9 +1,9 @@
 ## Flávia ###
-## 2020-05-10 21:01:33 -03 ##
+## 2020-05-10 21:07:49 -03 ##
 ## Exploring Data Analysis ##
 ## Course Project 1 ##
 
-### Plot 3 ###
+### Plot 4 ###
 
 # clean environment
 rm(list = ls())
@@ -27,12 +27,28 @@ household_used <- subset(household, format(Date_and_Time,'%d-%m-%Y')
                          %in% c('01-02-2007', '02-02-2007'))
 
 # Make the plot
-png("plot3.png", width = 480)
+png("plot4.png", width = 480)
+par(mfrow = c(2,2))
+with(household_used, plot(Date_and_Time, Global_active_power, type = "n",
+                          xlab = "",
+                          ylab = "Global Active Power (kilowatts)"),
+     cex = 0.6)
+with(household_used, lines(Date_and_Time, Global_active_power))
+
+with(household_used, plot(Date_and_Time, Voltage, type = "n",
+                          xlab = "datetime",
+                          ylab = "Voltage"))
+with(household_used, lines(Date_and_Time, Voltage))
+
 with(household_used, plot(Date_and_Time, Sub_metering_1, 
                           type = "n", xlab = "", ylab = "Energy sub metering"))
 with(household_used, lines(Date_and_Time, Sub_metering_1, col = "black"))
 with(household_used, lines(Date_and_Time, Sub_metering_2, col = "red"))
 with(household_used, lines(Date_and_Time, Sub_metering_3, col = "blue"))
 legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), 
-      col = c("black", "red", "blue"), lty = 1, cex = 0.8)
+       col = c("black", "red", "blue"), lty = 1, cex = 0.8, bty = "n")
+
+with(household_used, plot(Date_and_Time, Global_reactive_power, type = "n",
+                          xlab = "datetime"))
+with(household_used, lines(Date_and_Time, Global_reactive_power))
 dev.off()
